@@ -82,7 +82,8 @@
     <link rel="stylesheet" href="/css/progressbar.css">
 <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
     
-    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
     
 
 
@@ -138,7 +139,13 @@
         color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
     </script>
     
+
+
     
+    <script type="text/javascript" src="/js/click_show_text.js"></script>
+    <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+    <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+    <script type="text/javascript" src="/js/firework.js"></script>
     <script type="text/javascript" src="http://libs.baidu.com/jquery/1.8.3/jquery.js"></script>
     <script type="text/javascript" src="http://libs.baidu.com/jquery/1.8.3/jquery.min.js"></script>
     <script src="/live2d-widget/autoload.js"></script>
@@ -188,7 +195,7 @@
         </h1>
         <div class="content">
             
-    <div id="aplayer-lyRZsfBO" class="aplayer aplayer-tag-marker meting-tag-marker" data-id="300129" data-server="netease" data-type="song" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#555"></div>
+    <div id="aplayer-MgkHYgCm" class="aplayer aplayer-tag-marker meting-tag-marker" data-id="300129" data-server="netease" data-type="song" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#555"></div>
 
 <p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
@@ -681,27 +688,22 @@
             	setInterval("createtime()",250);
             	</script>
                 </p>
-                <p> </p>
 	<p class="is-size-7">
+	    
+                    <br>
 	    <span id="busuanzi_container_site_pv">
-    		| Total Visit of Site <span id="busuanzi_value_site_pv "></span> Times
+    		| Total Visit of Site <span id="busuanzi_value_site_pv ">0</span> Times
 	    </span>
                     <span id="busuanzi_container_site_uv">
-  		| Number of visitors<span id="busuanzi_value_site_uv"></span> 
+  		| Number of visitors<span id="busuanzi_value_site_uv">0</span> 
 	    </span>
+                    
+	    
 	</p>
             </div>
             <div class="level-end">
             
                 <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" rel="noopener" title="busuanzi" href="/">
-                        
-                        <i class=""></i>
-                        
-                    </a>
-                </p>
                 
                 <p class="control">
                     <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
