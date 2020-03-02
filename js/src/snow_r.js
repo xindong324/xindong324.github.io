@@ -1,3 +1,46 @@
+/*样式一*/
+(function($){
+	$.fn.snow = function(options){
+	var $flake = $('<div id="snowbox" />').css({'position': 'absolute','z-index':'9999', 'top': '-50px'}).html('&#10052;'),
+	documentHeight 	= $(document).height(),
+	documentWidth	= $(document).width(),
+	defaults = {
+		minSize		: 10,
+		maxSize		: 20,
+		newOn		: 1000,
+		flakeColor	: "#AFDAEF" /* 此处可以定义雪花颜色，若要白色可以改为#FFFFFF */
+	},
+	options	= $.extend({}, defaults, options);
+	var interval= setInterval( function(){
+	var startPositionLeft = Math.random() * documentWidth - 100,
+	startOpacity = 0.5 + Math.random(),
+	sizeFlake = options.minSize + Math.random() * options.maxSize,
+	endPositionTop = documentHeight - 200,
+	endPositionLeft = startPositionLeft - 500 + Math.random() * 500,
+	durationFall = documentHeight * 10 + Math.random() * 5000;
+	$flake.clone().appendTo('body').css({
+		left: startPositionLeft,
+		opacity: startOpacity,
+		'font-size': sizeFlake,
+		color: options.flakeColor
+	}).animate({
+		top: endPositionTop,
+		left: endPositionLeft,
+		opacity: 0.2
+	},durationFall,'linear',function(){
+		$(this).remove()
+	});
+	}, options.newOn);
+    };
+})(jQuery);
+$(function(){
+    $.fn.snow({ 
+	    minSize: 5, /* 定义雪花最小尺寸 */
+	    maxSize: 50,/* 定义雪花最大尺寸 */
+	    newOn: 300  /* 定义密集程度，数字越小越密集 */
+    });
+});
+
 function snowFall(snow) {
     /* 可配置属性 */
     snow = snow || {};
@@ -86,9 +129,9 @@ flakeMove.prototype.reset = function(width, height) {
 // 渲染雪花-随机形状（此处可修改雪花颜色！！！）
 flakeMove.prototype.render = function(ctx) {
     var snowFlake = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
-    snowFlake.addColorStop(0, "rgba(255, 255, 255, 0.9)");  /* 此处是雪花RGB颜色，默认是白色 */
-    snowFlake.addColorStop(.5, "rgba(255, 255, 255, 0.5)"); /* 若要改为其他颜色，请自行查 */
-    snowFlake.addColorStop(1, "rgba(255, 255, 255, 0)");    /* 找16进制的RGB 颜色代码。 */
+    snowFlake.addColorStop(0, "rgba(5, 39, 175, 0.9)");  /* 此处是雪花RGB颜色，默认是白色 */
+    snowFlake.addColorStop(.5, "rgba(5, 39, 175, 0.5)"); /* 若要改为其他颜色，请自行查 */
+    snowFlake.addColorStop(1, "rgba(5, 39, 175, 0)");    /* 找16进制的RGB 颜色代码。 */
     ctx.save();
     ctx.fillStyle = snowFlake;
     ctx.beginPath();
