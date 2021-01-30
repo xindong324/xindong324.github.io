@@ -19,7 +19,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
 <meta property="article:published_time" content="2021-01-28T04:20:55.000Z">
-<meta property="article:modified_time" content="2021-01-30T15:09:35.945Z">
+<meta property="article:modified_time" content="2021-01-30T15:12:15.352Z">
 <meta property="article:author" content="Dong Xin">
 <meta property="article:tag" content="UAV">
 <meta property="article:tag" content="STM32">
@@ -174,7 +174,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    5 minutes read (About 786 words)
+                    5 minutes read (About 785 words)
                 </span>
                 
                 
@@ -201,43 +201,48 @@
 <p>| TIM2 | CH2 | PA1 PB3 |<br>| TIM2 | CH3 |PA2 PB10 |<br>| TIM2| CH4| PA3  PB11|<br>| TIM3 | CH1| PC6 PB4 PA6|<br>| TIM3 | CH2 | PC7 PB5 PA7 |<br>| TIM3| CH3| PC8 PB0|<br>| TIM3| CH4| PC9 PB1|<br>| TIM5| CH1| PA0 |<br>| TIM5| CH2 | PA1 |<br>| TIM5| CH3| PA2 |<br>| TIM5 | CH4 | PA3 |<br>| TIM4 | CH1| PB6|<br>| TIM4 | CH2| PB7|<br>| TIM4 | CH3| PB8 |<br>| TIM4 | CH4 | PB9 |<br>|  TIM10 | CH1| PB8|<br>| TIM11 | CH1 | PB9|<br>| TIM12| CH1| PB14 |<br>| TIM12| CH2| PB15 |<br>| TIM13 | CH1 | PA6 |<br>| TIM14 | CH1| PA7 |  </p>
 <h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>使用PA6 PA7( TIM3的1 2 通道)产生两路pwm波，实现电机的正反转</p>
 <ol>
-<li><p>定时器初始化
-‘’’
-//TIM3 PWM 初始化 PA6 TIM3CH1 PA7 TIM3 CH2
-//PWMÊä³ö³õÊ¼»¯
-//arr 自动重装值
+<li>定时器初始化</li>
+</ol>
+<p>···
+//TIM3 PWM 初始化 PA6 TIM3CH1 PA7 TIM3 CH2<br>//arr 自动重装值
 //psc 时钟预分频系数
 void TIM3_PWM_Init(u32 arr,u32 psc)
-{<br>//io口配置</p>
-<p>GPIO_InitTypeDef GPIO_InitStructure;
+{<br>    //io口配置</p>
+<pre><code>GPIO_InitTypeDef GPIO_InitStructure;
 TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
-TIM_OCInitTypeDef  TIM_OCInitStructure;</p>
-<p>RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3,ENABLE);      //TIM3 时钟初始化
-RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);     //GPIO口初始化</p>
-<p>GPIO_PinAFConfig(GPIOA,GPIO_PinSource6,GPIO_AF_TIM3); //GPIO复用为定时器功能
-GPIO_PinAFConfig(GPIOA,GPIO_PinSource7,GPIO_AF_TIM3); </p>
-<p>GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6|GPIO_Pin_7;           //GPIO
+TIM_OCInitTypeDef  TIM_OCInitStructure;
+
+RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3,ENABLE);      //TIM3 时钟初始化
+RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);     //GPIO口初始化
+
+GPIO_PinAFConfig(GPIOA,GPIO_PinSource6,GPIO_AF_TIM3); //GPIO复用为定时器功能
+GPIO_PinAFConfig(GPIOA,GPIO_PinSource7,GPIO_AF_TIM3); 
+
+GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6|GPIO_Pin_7;           //GPIO
 GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;        //复用功能
 GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;    //速度100MHz
 GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;      //推挽复用输出
 GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;        //上拉
-GPIO_Init(GPIOA,&amp;GPIO_InitStructure);              </p>
-<p>//定时器配置 
+GPIO_Init(GPIOA,&amp;GPIO_InitStructure);              
+
+//定时器配置 
 TIM_TimeBaseStructure.TIM_Prescaler=psc;  //时钟预分频
 TIM_TimeBaseStructure.TIM_CounterMode=TIM_CounterMode_Up; //向上计数模式
 TIM_TimeBaseStructure.TIM_Period=arr;   //自动重装载值
-TIM_TimeBaseStructure.TIM_ClockDivision=TIM_CKD_DIV1; </p>
-<p>TIM_TimeBaseInit(TIM3,&amp;TIM_TimeBaseStructure);//TIM3</p>
-<p>//定时器pwm输出配置
+TIM_TimeBaseStructure.TIM_ClockDivision=TIM_CKD_DIV1; 
+
+TIM_TimeBaseInit(TIM3,&amp;TIM_TimeBaseStructure);//TIM3
+
+//定时器pwm输出配置
 TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1; // pwm 脉宽调制1模式 即计数器值小于比较值时高电平大于时低电平
  TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable; //比较输出使能
 TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High; //输出比较极性高
 TIM_OCInitStructure.TIM_OutputNState = TIM_OutputState_Disable; //N??????
 TIM_OCInitStructure.TIM_OCIdleState = TIM_OCIdleState_Reset ; // 必须加，否则只有一路输出
-TIM_OC1Init(TIM3, &amp;TIM_OCInitStructure);  //tim3 ch1 初始化</p>
-</li>
-</ol>
-<pre><code>TIM_OC2Init(TIM3, &amp;TIM_OCInitStructure);  //tim3 ch2 初始化
+TIM_OC1Init(TIM3, &amp;TIM_OCInitStructure);  //tim3 ch1 初始化
+
+
+TIM_OC2Init(TIM3, &amp;TIM_OCInitStructure);  //tim3 ch2 初始化
 
 TIM_OC1PreloadConfig(TIM3, TIM_OCPreload_Enable);  //使能tim3 ch1 预装载寄存器
 TIM_OC2PreloadConfig(TIM3, TIM_OCPreload_Enable);  //使能tim3 ch2 预装载寄存器
@@ -250,11 +255,10 @@ TIM_Cmd(TIM3, ENABLE);  //使能TIM3</code></pre><p>}  </p>
  TIM_SetCompare1(TIM3,c1); // TIM3 CH1 比较，大于c1反转
  TIM_SetCompare2(TIM3,c2); 
 }
-‘’’</p>
+···</p>
 <ol start="2">
 <li><p>主函数
-所用芯片时钟频率为84Mhz，预分频系数84，最大计数值为1000，则pwm频率为 f=84MHz/(84*1000) = 1KHz
-‘’’
+所用芯片时钟频率为84Mhz，预分频系数84，最大计数值为1000，则pwm频率为 f=84MHz/(84*1000) = 1KHz<br>···
 int main(void)
 { 
  u16 PWM_HZ = 1000;    // pwm运行频率 1kHz 1ms
@@ -282,7 +286,7 @@ else
     Prun(0,cnt_cmp);    //dir==0 反转
 }</code></pre><p> }
 }
-‘’’</p>
+···</p>
 <h2 id="部分踩坑"><a href="#部分踩坑" class="headerlink" title="部分踩坑"></a>部分踩坑</h2><p>TIM5 在四路pwm输出测试中(PA0 1 2 3), PA1持续输出不受控制的方波, 其他三路正常,暂时未找到原因,待调试.
 TIM3 (PC 6-9)四路pwm输出正常
 TIM4 (PB6-9)四路PWM输出正常</p>
